@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ module for Server class """
-from typing import Tuple, List
+from typing import Tuple, List, Dict
 import csv
 import math
 
@@ -60,3 +60,28 @@ class Server:
         if start_index >= len(dataset):
             return []
         return dataset[start_index:end_index]
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
+        """Get hypermedia pagination information for the dataset
+
+            Args:
+            - page : The number of the page to retrieve
+            - page_size : The number of items (rows) per page we want
+
+            Returns: A dictionary containing pagination information
+        """
+        dataset = self.dataset()
+        page_data = self.get_page(page, page_size)
+
+        total_pages = math.ceil(len(dataset) / page_size)
+
+        dct = {
+            'page_size': len(page_data),
+            'page': page,
+            'data': page_data,
+            'next_page': page + 1 if (page + 1) <= total_pages else None,
+            'prev_page': page - 1 if (page + 1) > 0 else None,
+            'total_pages': total_pages
+        }
+
+        return dct
