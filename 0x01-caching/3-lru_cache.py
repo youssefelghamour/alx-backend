@@ -17,26 +17,20 @@ class LRUCache(BaseCaching):
         if key is None or item is None:
             return
 
+        if key in self.cache_list:
+            # remove key to update its position later
+            self.cache_list.remove(key)
+
         self.cache_data[key] = item
 
-        if key in self.cache_list:
-            # get the index of the key
-            index = self.cache_list.index(key)
+        # put the recently visited item at the end
+        self.cache_list.append(key)
 
-            # put the recenty visited item at the end
-            temp = self.cache_list[index]
-            self.cache_list[index] = self.cache_list[-1]
-            self.cache_list[-1] = temp
-        else:
-            self.cache_list.append(key)
-
-        if len(self.cache_data) > self.MAX_ITEMS:
-            del_key = self.cache_list[0]
-
+        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+            # get the key of the least recently used item
+            del_key = self.cache_list.pop(0)
             # delete the item
             self.cache_data.pop(del_key)
-            del self.cache_list[0]
-
             print("DISCARD:", del_key)
 
     def get(self, key):
@@ -46,12 +40,7 @@ class LRUCache(BaseCaching):
 
         # update the order of the list by putting the most visited item in top
         if key in self.cache_list:
-            # get the index of the key
-            index = self.cache_list.index(key)
-
-            # put the recenty visited item at the end
-            temp = self.cache_list[index]
-            self.cache_list[index] = self.cache_list[-1]
-            self.cache_list[-1] = temp
+            self.cache_list.remove(key)
+            self.cache_list.append(key)
 
         return self.cache_data.get(key)
