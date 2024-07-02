@@ -36,9 +36,12 @@ def get_locale():
     # name = arg.get('name') # "ysf"
 
     # Check if 'locale' is in the request arguments and if it's valid
-    locale = request.args.get('locale')
-    if locale in app.config['LANGUAGES']:
-        return locale
+    if 'locale' in request.args:
+        locale = request.args.get('locale')
+        if locale in app.config['LANGUAGES']:
+            return locale
+
+    # fallback to accepting languages based on client preferences
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
