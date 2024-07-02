@@ -24,14 +24,14 @@ babel = Babel(app)
 @babel.localeselector
 def get_locale():
     """ determines the best match with our supported languages """
-    ## Full request URL
+    # Full request URL
     # full_url = request.url  # "http://127.0.0.1:5000/?locale=fr&name=ysf"
 
-    ## URL path
+    # URL path
     # path = request.path  # "/"
 
-    ## URL parameters
-    # args = request.args 
+    # URL parameters
+    # args = request.args
     # = ImmutableMultiDict([('locale', 'fr'), ('name', 'ysf')])
     # name = arg.get('name') # "ysf"
 
