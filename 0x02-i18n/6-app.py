@@ -32,7 +32,7 @@ def get_user():
         http://127.0.0.1:5000/?login_as=2
     """
     id = request.args.get('login_as')
-    if id:
+    if id and int(id) in users:
         return users[int(id)]
     return None
 
